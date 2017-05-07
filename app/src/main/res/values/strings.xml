@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Konum Tabanlı Hatırlatma Sistemi</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_username">Kullanıcı Adı</string>
+    <string name="prompt_password">Parola</string>
+    <string name="action_sign_in">Giriş Yap veya Kaydol</string>
+    <string name="action_sign_in_short">Giriş Yap</string>
+    <string name="error_invalid_username">Girdiğiniz kullanıcı adı geçersiz</string>
+    <string name="error_invalid_password">Girdiğiniz parola çok kısa</string>
+    <string name="error_incorrect_password">Girdiğiniz parola geçersiz</string>
+    <string name="error_field_required">Bu alana veri girilmelidir</string>
+</resources>
