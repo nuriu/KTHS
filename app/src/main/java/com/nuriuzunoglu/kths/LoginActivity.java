@@ -3,6 +3,7 @@ package com.nuriuzunoglu.kths;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -212,6 +213,9 @@ public class LoginActivity extends AppCompatActivity {
 
             if (success) {
                 finish();
+
+                Intent i = new Intent(getApplicationContext(), RemindersActivity.class);
+                startActivity(i);
             } else {
                 // TODO: Kullanıcı adı ve parola için ayrı ayrı kontrol yap.
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
