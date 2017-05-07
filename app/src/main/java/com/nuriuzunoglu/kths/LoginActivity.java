@@ -71,9 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid username, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
+     * Giriş veya kayıt işlemleriyle ilgilenir.
      */
     private void attemptLogin() {
         if (mAuthTask != null) {
@@ -91,13 +89,6 @@ public class LoginActivity extends AppCompatActivity {
         boolean cancel = false;
         View focusView = null;
 
-        // Parola girildiyse kontrol et.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
         // Kullanıcı adı girildiyse kontrol et.
         if (TextUtils.isEmpty(username)) {
             mUsernameView.setError(getString(R.string.error_field_required));
@@ -106,6 +97,17 @@ public class LoginActivity extends AppCompatActivity {
         } else if (!isUsernameValid(username)) {
             mUsernameView.setError(getString(R.string.error_invalid_username));
             focusView = mUsernameView;
+            cancel = true;
+        }
+
+        // Parola girildiyse kontrol et.
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
             cancel = true;
         }
 
@@ -199,7 +201,8 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             // TODO: Yeni üyeliği burada kaydet.
-            return true;
+            // return true;
+            return false;
         }
 
         @Override
@@ -210,6 +213,7 @@ public class LoginActivity extends AppCompatActivity {
             if (success) {
                 finish();
             } else {
+                // TODO: Kullanıcı adı ve parola için ayrı ayrı kontrol yap.
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
