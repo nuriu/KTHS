@@ -3,6 +3,7 @@ package com.nuriuzunoglu.kths;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
@@ -18,6 +19,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Kullanıcının kullanıcı adı ve şifresi ile giriş yapacağı ekran.
@@ -40,6 +49,10 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    // HTTP istemcisi.
+    private OkHttpClient httpClient;
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +82,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        httpClient = new OkHttpClient();
     }
 
     /**
@@ -188,9 +203,15 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 // Ağ erişimini simule et.
+
+                String response = get("http://jsonplaceholder.typicode.com/posts/1");
+                System.out.println(response);
+
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
             for (String credential : DUMMY_CREDENTIALS) {
@@ -227,6 +248,31 @@ public class LoginActivity extends AppCompatActivity {
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+
+        public String generateJson(String username, String password) {
+            return "{'kulAdi':'" + username + "', 'parola':'" + password + "'}";
+        }
+
+        String post(String url, String json) throws IOException {
+            RequestBody body = RequestBody.create(JSON, json);
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+            try (Response response = httpClient.newCall(request).execute()) {
+                return response.body().string();
+            }
+        }
+
+        String get(String url) throws IOException {
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            try (Response response = httpClient.newCall(request).execute()) {
+                return response.body().string();
+            }
         }
     }
 }
