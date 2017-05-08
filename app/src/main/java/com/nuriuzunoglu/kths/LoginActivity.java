@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
      * TODO: Giriş sistemi yazıldığında onunla değiştir.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "admin:admin", "root:sudo"
+            "admin:admin", "root:sudo", "deneme:deneme"
     };
     /**
      * İstediğimizde giriş isteğini iptal etmemiz için takip ediyoruz.
@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // HTTP istemcisi.
     private OkHttpClient httpClient;
+    private static final String url = "http://kthsservis.somee.com/KTHSServis.svc";
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     @Override
@@ -204,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 // Ağ erişimini simule et.
 
-                String response = get("http://jsonplaceholder.typicode.com/posts/1");
+                String response = post(url + "/Giris", generateJson(mUsername, mPassword));
                 System.out.println(response);
 
                 Thread.sleep(2000);
@@ -251,7 +252,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         public String generateJson(String username, String password) {
-            return "{'kulAdi':'" + username + "', 'parola':'" + password + "'}";
+            return "{kulAdi:'" + username + "', parola:'" + password + "'}";
         }
 
         String post(String url, String json) throws IOException {
