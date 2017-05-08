@@ -11,4 +11,5 @@
     <string name="error_incorrect_password">Girdiğiniz parola geçersiz</string>
     <string name="error_field_required">Bu alana veri girilmelidir</string>
     <string name="title_activity_reminders">Mevcut Hatırlatmalar</string>
+    <string name="title_activity_maps">Harita</string>
 </resources>

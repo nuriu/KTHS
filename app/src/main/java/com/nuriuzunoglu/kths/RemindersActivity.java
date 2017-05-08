@@ -1,5 +1,6 @@
 package com.nuriuzunoglu.kths;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,9 +21,10 @@ public class RemindersActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Harita ekranına yönlendir.
-                Snackbar.make(view, "Ekleme ekranına geç!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                finish();
+
+                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                startActivity(i);
             }
         });
     }
