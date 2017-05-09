@@ -23,6 +23,7 @@ import android.widget.TextView;
 import java.io.IOException;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -53,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
     // HTTP istemcisi.
     private OkHttpClient httpClient;
     private static final String url = "http://kthsservis.somee.com/KTHSServis.svc";
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,21 +200,14 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: Ağ servisi üzerinde kullanıcıyı yetkilendir.
-
             try {
-                // Ağ erişimini simule et.
-
-                String response = post(url + "/Giris", generateJson(mUsername, mPassword));
+                String response = post(url + "/Giris", mUsername, mPassword);
                 System.out.println(response);
-
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
+            // TODO: Ağ servisi üzerinde kullanıcıyı yetkilendir. Burası kaldırılacak.
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mUsername)) {
@@ -251,14 +244,15 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
         }
 
-        public String generateJson(String username, String password) {
-            return "{kulAdi:'" + username + "', parola:'" + password + "'}";
-        }
-
-        String post(String url, String json) throws IOException {
-            RequestBody body = RequestBody.create(JSON, json);
+        String post(String url, String username, String password) throws IOException {
+            RequestBody body = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("kulAdi", username)
+                    .addFormDataPart("parola", password)
+                    .build();
             Request request = new Request.Builder()
                     .url(url)
+                    .method("POST", RequestBody.create(null, new byte[0]))
                     .post(body)
                     .build();
             try (Response response = httpClient.newCall(request).execute()) {
