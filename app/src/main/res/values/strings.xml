@@ -12,4 +12,6 @@
     <string name="error_field_required">Bu alana veri girilmelidir</string>
     <string name="title_activity_reminders">Mevcut Hatırlatmalar</string>
     <string name="title_activity_maps">Harita</string>
+    <string name="title_activity_maps_search">Ara</string>
+    <string name="title_activity_maps_search_hint">Buradan mekan araması yapın</string>
 </resources>
