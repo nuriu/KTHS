@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="Konum Bilgisi"
+        android:text="@string/reminder_location_title"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black" />
 
@@ -19,17 +19,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/location"
         android:layout_marginTop="5dp"
-        android:text="yapılacak iş"
+        android:text="@string/reminder_location_desc"
         android:textColor="@android:color/black" />
 
         <TextView
         android:id="@+id/reminder_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Saat:"
+        android:text="@string/reminder_hour"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"/>
 

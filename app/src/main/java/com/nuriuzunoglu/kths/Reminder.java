@@ -1,9 +1,5 @@
 package com.nuriuzunoglu.kths;
 
-/**
- * Created by ahmetu on 10.05.2017.
- */
-
 public class Reminder {
     private  String location;
     private  String reminder;

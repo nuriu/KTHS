@@ -14,4 +14,7 @@
     <string name="title_activity_maps">Harita</string>
     <string name="title_activity_maps_search">Ara</string>
     <string name="title_activity_maps_search_hint">Buradan mekan araması yapın</string>
+    <string name="reminder_location_title">Konum Bilgisi</string>
+    <string name="reminder_location_desc">Hatırlatma Açıklaması</string>
+    <string name="reminder_hour">Saat: </string>
 </resources>

@@ -20,6 +20,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.MediaType;
@@ -33,13 +36,6 @@ import okhttp3.Response;
  * Kullanıcının kullanıcı adı ve şifresi ile giriş yapacağı ekran.
  */
 public class LoginActivity extends AppCompatActivity {
-    /**
-     * Test amaçlı kullanılacak kullanıcı bilgileri.
-     * TODO: Giriş sistemi yazıldığında onunla değiştir.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "admin:admin", "root:sudo", "deneme:deneme"
-    };
     /**
      * İstediğimizde giriş isteğini iptal etmemiz için takip ediyoruz.
      */
@@ -141,12 +137,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isUsernameValid(String username) {
         //TODO: Replace this with your own logic
-        return username.length() > 4;
+        return username.length() > 2;
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 2;
     }
 
     /**
@@ -200,24 +196,20 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            int durum = 0;
             try {
-                String response = post(url + "/Giris", mUsername, mPassword);
-                System.out.println(response);
+                durum = new JSONObject(post(url + "/Giris/", mUsername, mPassword)).getInt("GirisResult");
+                System.out.println(durum);
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            // TODO: Ağ servisi üzerinde kullanıcıyı yetkilendir. Burası kaldırılacak.
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mUsername)) {
-                    // Üyelik mevcut, parola uyuşuyor ise true döndür.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+            if (durum != 0)
+                return true;
 
             // TODO: Yeni üyeliği burada kaydet.
-            // return true;
             return false;
         }
 
@@ -245,6 +237,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         String post(String url, String username, String password) throws IOException {
+            System.out.println(username + " : " + password);
             RequestBody body = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("kulAdi", username)

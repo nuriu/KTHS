@@ -10,10 +10,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by ahmetu on 10.05.2017.
- */
-
 public class CustomAdapter extends BaseAdapter {
     private LayoutInflater inf;
     private List<Reminder> reminders;
