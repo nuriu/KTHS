@@ -35,27 +35,25 @@ public class AddReminderActivity extends AppCompatActivity {
 
         SQLiteDatabase db = this.db.getWritableDatabase();
 
-        Cursor c = db.rawQuery("SELECT * FROM Hatirlaticilar WHERE location=?", new String[]{loc});
-        if (c.getCount() > 0) {
-            Toast.makeText(AddReminderActivity.this, "Böyle bir kayıt var", Toast.LENGTH_SHORT).show();
-            c.close();
-            db.close();
-        } else {
-            ContentValues cv = new ContentValues();
-            cv.put("location", loc);
-            cv.put("hatirlatma", i);
-            cv.put("time", t);
+       try{
+           ContentValues cv = new ContentValues();
+           cv.put("location", loc);
+           cv.put("hatirlatma", i);
+           cv.put("time", t);
 
-            db.insert("Hatirlaticilar",null,cv);
+           db.insert("Hatirlaticilar",null,cv);
 
-            c.close();
-            db.close();
 
-            Toast.makeText(AddReminderActivity.this, "Başarı ile eklendi", Toast.LENGTH_SHORT).show();
+           db.close();
 
-            Intent intent = new Intent(getApplicationContext(), RemindersActivity.class);
-            startActivity(intent);
-        }
+           Toast.makeText(AddReminderActivity.this, "Başarı ile eklendi", Toast.LENGTH_SHORT).show();
+
+           Intent intent = new Intent(getApplicationContext(), RemindersActivity.class);
+           startActivity(intent);
+       }
+       catch (Exception e) {
+       }
+       }
 
     }
-}
+

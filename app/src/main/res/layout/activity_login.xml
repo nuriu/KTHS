@@ -6,27 +6,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="30dp"
+    android:background="@drawable/bac"
     tools:context="com.nuriuzunoglu.kths.LoginActivity">
-    <EditText
-        android:id="@+id/girisKulAdi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Kullanıcı adı"/>
-
-    <EditText
-        android:id="@+id/girisSifre"
-        android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Şifre"/>
-
-    <Button
-        android:onClick="Login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Giriş Yap"/>
-
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:id="@+id/giris"
+        android:layout_centerHorizontal="true">
+        <EditText
+            android:id="@+id/girisKulAdi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Kullanıcı adı"/>
+
+        <EditText
+            android:id="@+id/girisSifre"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Şifre"/>
+
+        <Button
+            android:onClick="Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Giriş Yap"
+            android:background="@color/btnColor"/>
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:onClick="RegisterOpen"
+            android:text="KAYIT OL"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorPrimaryDark"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -51,6 +73,14 @@
             android:onClick="Register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Kayıt Ol"/>
+            android:text="Kayıt Ol"
+            android:background="@color/colorPrimaryDark"/>
+
+        <Button
+            android:onClick="Back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bir hesaba sahibim"
+            android:background="@color/btnColor"/>
     </LinearLayout>
 </LinearLayout>

@@ -7,17 +7,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
     Database vt;
     EditText mLoginUsername, mLoginPassword, mUsername, mPassword;
+    LinearLayout lLogin,lRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
 
         vt = new Database(LoginActivity.this);
@@ -25,6 +29,9 @@ public class LoginActivity extends AppCompatActivity {
         mLoginPassword = (EditText) findViewById(R.id.girisSifre);
         mUsername =(EditText) findViewById(R.id.kayitKulAdi);
         mPassword =(EditText) findViewById(R.id.kayitSifre);
+
+        lLogin = (LinearLayout) findViewById(R.id.giris);
+        lRegister= (LinearLayout) findViewById(R.id.kayit);
     }
     public void Register(View view){
         String username = mUsername.getText().toString();
@@ -46,6 +53,9 @@ public class LoginActivity extends AppCompatActivity {
             db.insert("Kisiler", null, cv);
             c.close();
             db.close();
+            lRegister.setVisibility(LinearLayout.GONE);
+            lLogin.setVisibility(LinearLayout.SHOW_DIVIDER_BEGINNING);
+
         }
     }
 
@@ -68,4 +78,15 @@ public class LoginActivity extends AppCompatActivity {
         c.close();
         db.close();
     }
+
+    public void RegisterOpen(View v){
+        lLogin.setVisibility(LinearLayout.GONE);
+    }
+    public void Back(View v)
+    {
+        lRegister.setVisibility(LinearLayout.GONE);
+        lLogin.setVisibility(LinearLayout.SHOW_DIVIDER_BEGINNING);
+    }
+
+
 }
