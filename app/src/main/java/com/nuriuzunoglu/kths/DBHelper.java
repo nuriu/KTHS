@@ -8,15 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBHelper {
-        Veritabani veritabanim;
+        Database myDB;
         private SQLiteDatabase db;
 
-        public List<Reminder> HatirlatmaListele(Context context){
+        public List<Reminder> GetReminders(Context context){
             List<Reminder> reminders = new ArrayList<>();
-            veritabanim = new Veritabani(context);
-            //    veritabanim.createDataBase();
+            myDB = new Database(context);
 
-            SQLiteDatabase dbInstance = veritabanim.getReadableDatabase();
+            SQLiteDatabase dbInstance = myDB.getReadableDatabase();
             Cursor cursor = null;
             try{
                 cursor = dbInstance.rawQuery("SELECT * FROM Hatirlaticilar", null);

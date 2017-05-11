@@ -15,17 +15,17 @@ import java.util.List;
 
 public class RemindersActivity extends AppCompatActivity {
 
-    Veritabani vt;
+    Database vt;
     List<Reminder> reminders= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminders);
-        vt = new Veritabani(RemindersActivity.this);
+        vt = new Database(RemindersActivity.this);
         DBHelper dbHelper = new DBHelper();
 
-        reminders = dbHelper.HatirlatmaListele(this);
+        reminders = dbHelper.GetReminders(this);
 
         ListView list = (ListView) findViewById(R.id.customList);
         CustomAdapter adapter = new CustomAdapter(this,reminders);
@@ -33,8 +33,7 @@ public class RemindersActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

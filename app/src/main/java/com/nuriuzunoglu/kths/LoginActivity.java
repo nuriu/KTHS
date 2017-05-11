@@ -1,280 +1,71 @@
 package com.nuriuzunoglu.kths;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.app.DownloadManager;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
-
-import android.os.AsyncTask;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.widget.Toast;
 
-import java.io.IOException;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-/**
- * Kullanıcının kullanıcı adı ve şifresi ile giriş yapacağı ekran.
- */
 public class LoginActivity extends AppCompatActivity {
-    /**
-     * İstediğimizde giriş isteğini iptal etmemiz için takip ediyoruz.
-     */
-    private UserLoginTask mAuthTask = null;
-
-    // Arayüz değişkenleri.
-    private EditText mUsernameView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
-
-    // HTTP istemcisi.
-    private OkHttpClient httpClient;
-    private static final String url = "http://kthsservis.somee.com/KTHSServis.svc";
+    Database vt;
+    EditText mLoginUsername, mLoginPassword, mUsername, mPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Giriş formunu kur.
-        mUsernameView = (EditText) findViewById(R.id.username);
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-
-        httpClient = new OkHttpClient();
+        vt = new Database(LoginActivity.this);
+        mLoginUsername = (EditText) findViewById(R.id.girisKulAdi);
+        mLoginPassword = (EditText) findViewById(R.id.girisSifre);
+        mUsername =(EditText) findViewById(R.id.kayitKulAdi);
+        mPassword =(EditText) findViewById(R.id.kayitSifre);
     }
+    public void Register(View view){
+        String username = mUsername.getText().toString();
+        String password = mPassword.getText().toString();
 
-    /**
-     * Giriş veya kayıt işlemleriyle ilgilenir.
-     */
-    private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+        SQLiteDatabase db = vt.getWritableDatabase();
 
-        // Hataları sıfırla.
-        mUsernameView.setError(null);
-        mPasswordView.setError(null);
+        Cursor c = db.rawQuery("SELECT * FROM Kisiler WHERE kullaniciAdi=?",new String[]{username});
 
-        // Verileri al.
-        String username = mUsernameView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Kullanıcı adı girildiyse kontrol et.
-        if (TextUtils.isEmpty(username)) {
-            mUsernameView.setError(getString(R.string.error_field_required));
-            focusView = mUsernameView;
-            cancel = true;
-        } else if (!isUsernameValid(username)) {
-            mUsernameView.setError(getString(R.string.error_invalid_username));
-            focusView = mUsernameView;
-            cancel = true;
-        }
-
-        // Parola girildiyse kontrol et.
-        if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
-            cancel = true;
-        } else if (!isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // Hata oluştu; giriş yapmaya çalışma ve hatalı alana odaklan.
-            focusView.requestFocus();
+        if (c.getCount() > 0) {
+            Toast.makeText(LoginActivity.this, "Böyle bir kıllanıcı zaten var", Toast.LENGTH_SHORT).show();
+            c.close();
+            db.close();
         } else {
-            // Aşama gösterimine geç ve arkaplanda giriş işlemlerini işle.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(username, password);
-            mAuthTask.execute((Void) null);
+            ContentValues cv = new ContentValues();
+            cv.put("kullaniciAdi", username);
+            cv.put("sifre", password);
+
+            db.insert("Kisiler", null, cv);
+            c.close();
+            db.close();
         }
     }
 
-    private boolean isUsernameValid(String username) {
-        //TODO: Replace this with your own logic
-        return username.length() > 2;
-    }
+    public void Login(View view) {
+        String username = mLoginUsername.getText().toString();
+        String password = mLoginPassword.getText().toString();
 
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 2;
-    }
+        SQLiteDatabase db = vt.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM Kisiler WHERE kullaniciAdi=? AND sifre=?", new String[]{username, password});
 
-    /**
-     * Giriş formunu gizler, aşama gösterimine geçer.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+            Toast.makeText(LoginActivity.this, "Hoşgeldin " + c.getString(1), Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(LoginActivity.this,RemindersActivity.class);
+            startActivity(i);
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            Toast.makeText(LoginActivity.this, "Kayıt Bulunamadı", Toast.LENGTH_SHORT).show();
+
         }
+        c.close();
+        db.close();
     }
-
-    /**
-     * Kullanıcı yetkilendirilmesi için asenkron giriş/kayıt isteğini işler.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mUsername;
-        private final String mPassword;
-
-        UserLoginTask(String username, String password) {
-            mUsername = username;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-             int durum = 0;
-            System.out.println("geldiii");
-            try {
-                durum = new JSONObject(post(url + "/Giris/", mUsername, mPassword)).getInt("GirisResult");
-                System.out.println(durum);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            if (durum != 0)
-                return true;
-
-            // TODO: Yeni üyeliği burada kaydet.
-            //http:// kthsservis.somee.com/KTHSServis.svc/Giris/?kulAdi=asd& parola= asd
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-
-                Intent i = new Intent(getApplicationContext(), RemindersActivity.class);
-                startActivity(i);
-            } else {
-                // TODO: Kullanıcı adı ve parola için ayrı ayrı kontrol yap.
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-
-        String post(String url, String username, String password) throws IOException {
-            System.out.println(username + " : " + password);
-            RequestBody body = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("kulAdi", username)
-                    .addFormDataPart("parola", password)
-                    .build();
-            Request request = new Request.Builder()
-                    .url(url)
-                    .method("POST", RequestBody.create(null, new byte[0]))
-                    .post(body)
-                    .build();
-            try (Response response = httpClient.newCall(request).execute()) {
-                return response.body().string();
-            }
-        }
-
-        String get(String url) throws IOException {
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-
-            try (Response response = httpClient.newCall(request).execute()) {
-                return response.body().string();
-            }
-        }
-
-
-
-
-    }
-
-
-
-
-
-
-
 }
-

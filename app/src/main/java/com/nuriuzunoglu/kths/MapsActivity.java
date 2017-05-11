@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -29,10 +28,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private EditText mLocationSearch;
 
     public void  hatirlatmaEkle(View v){
-        Intent i = new Intent(getApplicationContext(), HatirlatmaActivity.class);
+        Intent i = new Intent(getApplicationContext(), AddReminderActivity.class);
         startActivity(i);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +41,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
 
     /**
      * Harita hazır olduğunda onu manipüle eder.
