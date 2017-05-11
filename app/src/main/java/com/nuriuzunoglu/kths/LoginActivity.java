@@ -196,7 +196,8 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            int durum = 0;
+             int durum = 0;
+            System.out.println("geldiii");
             try {
                 durum = new JSONObject(post(url + "/Giris/", mUsername, mPassword)).getInt("GirisResult");
                 System.out.println(durum);
@@ -210,6 +211,7 @@ public class LoginActivity extends AppCompatActivity {
                 return true;
 
             // TODO: Yeni üyeliği burada kaydet.
+            //http:// kthsservis.somee.com/KTHSServis.svc/Giris/?kulAdi=asd& parola= asd
             return false;
         }
 
@@ -262,6 +264,17 @@ public class LoginActivity extends AppCompatActivity {
                 return response.body().string();
             }
         }
+
+
+
+
     }
+
+
+
+
+
+
+
 }
 

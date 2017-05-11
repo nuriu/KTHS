@@ -15,19 +15,20 @@ import java.util.List;
 
 public class RemindersActivity extends AppCompatActivity {
 
-    List<Reminder> reminder= new ArrayList<>();
+    Veritabani vt;
+    List<Reminder> reminders= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminders);
+        vt = new Veritabani(RemindersActivity.this);
+        DBHelper dbHelper = new DBHelper();
 
-        reminder.add(new Reminder("Ankara","makarna all","20:40"));
-        reminder.add(new Reminder("Sakarya,mama","bebek bezi al","12:44"));
-        reminder.add(new Reminder("Manisa","Mesir macunu almayı unutma","10:20"));
+        reminders = dbHelper.HatirlatmaListele(this);
 
         ListView list = (ListView) findViewById(R.id.customList);
-        CustomAdapter adapter = new CustomAdapter(this,reminder);
+        CustomAdapter adapter = new CustomAdapter(this,reminders);
         list.setAdapter(adapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

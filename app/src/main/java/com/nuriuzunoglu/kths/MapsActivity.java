@@ -1,5 +1,6 @@
 package com.nuriuzunoglu.kths;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
@@ -26,6 +27,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
     private EditText mLocationSearch;
+
+    public void  hatirlatmaEkle(View v){
+        Intent i = new Intent(getApplicationContext(), HatirlatmaActivity.class);
+        startActivity(i);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

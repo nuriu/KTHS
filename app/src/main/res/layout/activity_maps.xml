@@ -23,6 +23,13 @@ android:orientation="vertical">
         android:layout_weight="0.5"
         android:onClick="onMapSearch"
         android:text="@string/title_activity_maps_search" />
+    <Button
+        android:id="@+id/ekle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:onClick="hatirlatmaEkle"
+        android:text="Ekle" />
 
 </LinearLayout>
 

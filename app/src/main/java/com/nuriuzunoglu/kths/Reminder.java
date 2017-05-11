@@ -5,6 +5,8 @@ public class Reminder {
     private  String reminder;
     private  String time;
 
+    public Reminder() {
+    }
     public Reminder(String location,String reminder, String time){
         this.location = location;
         this.reminder = reminder;
