@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         vt = new Database(LoginActivity.this);
+
         mLoginUsername = (EditText) findViewById(R.id.girisKulAdi);
         mLoginPassword = (EditText) findViewById(R.id.girisSifre);
         mUsername =(EditText) findViewById(R.id.kayitKulAdi);
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         lLogin = (LinearLayout) findViewById(R.id.giris);
         lRegister= (LinearLayout) findViewById(R.id.kayit);
     }
+
     public void Register(View view){
         String username = mUsername.getText().toString();
         String password = mPassword.getText().toString();
@@ -43,20 +45,23 @@ public class LoginActivity extends AppCompatActivity {
 
         if (c.getCount() > 0) {
             Toast.makeText(LoginActivity.this, "Böyle bir kıllanıcı zaten var", Toast.LENGTH_SHORT).show();
-            c.close();
-            db.close();
         } else {
             ContentValues cv = new ContentValues();
             cv.put("kullaniciAdi", username);
             cv.put("sifre", password);
 
-            db.insert("Kisiler", null, cv);
-            c.close();
-            db.close();
+            try{
+                db.insert("Kisiler", null, cv);
+                Toast.makeText(this, "Kullanıcı kaydı başarılı...", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(this, "HATA! Kullanıcı eklenemedi.", Toast.LENGTH_SHORT).show();
+            }
+
             lRegister.setVisibility(LinearLayout.GONE);
             lLogin.setVisibility(LinearLayout.SHOW_DIVIDER_BEGINNING);
-
         }
+        c.close();
+        db.close();
     }
 
     public void Login(View view) {
@@ -68,13 +73,12 @@ public class LoginActivity extends AppCompatActivity {
 
         if (c.getCount() > 0) {
             c.moveToFirst();
-            Toast.makeText(LoginActivity.this, "Hoşgeldin " + c.getString(1), Toast.LENGTH_SHORT).show();
             Intent i = new Intent(LoginActivity.this,RemindersActivity.class);
             startActivity(i);
         } else {
-            Toast.makeText(LoginActivity.this, "Kayıt Bulunamadı", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(LoginActivity.this, "Kayıt Bulunamadı!", Toast.LENGTH_SHORT).show();
         }
+
         c.close();
         db.close();
     }
@@ -82,11 +86,10 @@ public class LoginActivity extends AppCompatActivity {
     public void RegisterOpen(View v){
         lLogin.setVisibility(LinearLayout.GONE);
     }
+
     public void Back(View v)
     {
         lRegister.setVisibility(LinearLayout.GONE);
         lLogin.setVisibility(LinearLayout.SHOW_DIVIDER_BEGINNING);
     }
-
-
 }

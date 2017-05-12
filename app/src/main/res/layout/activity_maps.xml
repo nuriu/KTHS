@@ -24,14 +24,6 @@ android:orientation="vertical">
         android:onClick="onMapSearch"
         android:text="@string/title_activity_maps_search"
         android:background="@color/colorPrimaryDark"/>
-    <Button
-        android:id="@+id/ekle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:onClick="hatirlatmaEkle"
-        android:text="Ekle"
-        android:background="@color/btnColor"/>
 
 </LinearLayout>
 

@@ -16,10 +16,8 @@ public class Database extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "CREATE TABLE Kisiler (id INTEGER PRIMARY KEY, adSoyad TEXT, kullaniciAdi TEXT, sifre TEXT)";
         String sql2 = "CREATE TABLE Hatirlaticilar (id INTEGER PRIMARY KEY, location TEXT, hatirlatma TEXT, time TEXT)";
-        String sql3 = "INSERT INTO Hatirlaticilar Values(1, 'BOK', 'KOK', 'ŞOK')";
         sqLiteDatabase.execSQL(sql2);
         sqLiteDatabase.execSQL(sql);
-        sqLiteDatabase.execSQL(sql3);
     }
 
     @Override

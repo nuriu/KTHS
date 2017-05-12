@@ -25,6 +25,9 @@ public class AddReminderActivity extends AppCompatActivity {
         info = (EditText) findViewById(R.id.hatirlat);
         time = (EditText) findViewById(R.id.saat);
 
+        Intent intent = getIntent();
+        String adres = intent.getStringExtra("adres");
+        location.setText(adres);
     }
     public void AddReminder(View v)
     {
@@ -42,18 +45,15 @@ public class AddReminderActivity extends AppCompatActivity {
            cv.put("time", t);
 
            db.insert("Hatirlaticilar",null,cv);
-
-
            db.close();
 
-           Toast.makeText(AddReminderActivity.this, "Başarı ile eklendi", Toast.LENGTH_SHORT).show();
+           Toast.makeText(AddReminderActivity.this, "Başarı ile eklendi.", Toast.LENGTH_SHORT).show();
 
            Intent intent = new Intent(getApplicationContext(), RemindersActivity.class);
            startActivity(intent);
+       } catch (Exception e) {
+           Toast.makeText(this, "HATA! Veritabanına kayıt sırasında bir hata oluştu.", Toast.LENGTH_SHORT).show();
        }
-       catch (Exception e) {
-       }
-       }
-
     }
+}
 
