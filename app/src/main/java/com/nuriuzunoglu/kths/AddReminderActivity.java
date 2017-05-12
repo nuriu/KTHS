@@ -1,11 +1,14 @@
 package com.nuriuzunoglu.kths;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,6 +17,8 @@ public class AddReminderActivity extends AppCompatActivity {
 
     EditText location, info, time;
     Database db;
+    NotificationCompat.Builder notification;
+    private  static final int uniqueID=1526;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,9 @@ public class AddReminderActivity extends AppCompatActivity {
         location = (EditText) findViewById(R.id.konum);
         info = (EditText) findViewById(R.id.hatirlat);
         time = (EditText) findViewById(R.id.saat);
+
+        notification = new NotificationCompat.Builder(this);
+        notification.setAutoCancel(true);
 
         Intent intent = getIntent();
         String adres = intent.getStringExtra("adres");
@@ -47,9 +55,23 @@ public class AddReminderActivity extends AppCompatActivity {
            db.insert("Hatirlaticilar",null,cv);
            db.close();
 
-           Toast.makeText(AddReminderActivity.this, "Başarı ile eklendi.", Toast.LENGTH_SHORT).show();
+           //Toast.makeText(AddReminderActivity.this, "Başarı ile eklendi.", Toast.LENGTH_SHORT).show();
+           notification.setSmallIcon(R.drawable.info);
+           notification.setTicker("Konum:"+loc);
+           notification.setWhen(System.currentTimeMillis());
+           notification.setContentTitle("Saat:"+t);
+           notification.setContentText("Hatırlatma:"+i);
 
-           Intent intent = new Intent(getApplicationContext(), RemindersActivity.class);
+
+           Intent intent = new Intent(this,AddReminderActivity.class);
+           PendingIntent pendingIntent = PendingIntent.getActivities(this,0, new Intent[]{intent},PendingIntent.FLAG_UPDATE_CURRENT);
+           notification.setContentIntent(pendingIntent);
+
+
+           NotificationManager nm =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+           nm.notify(uniqueID,notification.build());
+
+           intent = new Intent(getApplicationContext(), RemindersActivity.class);
            startActivity(intent);
        } catch (Exception e) {
            Toast.makeText(this, "HATA! Veritabanına kayıt sırasında bir hata oluştu.", Toast.LENGTH_SHORT).show();
