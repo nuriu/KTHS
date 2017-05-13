@@ -8,9 +8,8 @@
     tools:context="com.nuriuzunoglu.kths.RemindersActivity"
     tools:showIn="@layout/activity_reminders">
 
-
     <ListView
         android:id="@+id/customList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>

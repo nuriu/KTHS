@@ -4,8 +4,8 @@
     <!-- Strings related to login -->
     <string name="prompt_username">Kullanıcı Adı</string>
     <string name="prompt_password">Parola</string>
-    <string name="action_sign_in">Giriş Yap veya Kaydol</string>
-    <string name="action_sign_in_short">Giriş Yap</string>
+    <string name="action_sign_in">Giriş Yap</string>
+    <string name="action_register">Kayıt Ol</string>
     <string name="error_invalid_username">Girdiğiniz kullanıcı adı geçersiz</string>
     <string name="error_invalid_password">Girdiğiniz parola çok kısa</string>
     <string name="error_incorrect_password">Girdiğiniz parola geçersiz</string>
@@ -16,5 +16,7 @@
     <string name="title_activity_maps_search_hint">Buradan mekan araması yapın</string>
     <string name="reminder_location_title">Konum Bilgisi</string>
     <string name="reminder_location_desc">Hatırlatma Açıklaması</string>
-    <string name="reminder_hour">Saat: </string>
+    <string name="reminder_hour">Saat</string>
+    <string name="add_reminder">Hatırlatma Ekle</string>
+    <string name="already_registered">Bir hesaba sahibim</string>
 </resources>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,6 +7,7 @@
     android:padding="30dp"
     android:background="@drawable/bac"
     tools:context="com.nuriuzunoglu.kths.LoginActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,24 +15,25 @@
         android:gravity="center"
         android:id="@+id/giris"
         android:layout_centerHorizontal="true">
+
         <EditText
             android:id="@+id/girisKulAdi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Kullanıcı adı"/>
+            android:hint="@string/prompt_username"/>
 
         <EditText
             android:id="@+id/girisSifre"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Şifre"/>
+            android:hint="@string/prompt_password"/>
 
         <Button
             android:onClick="Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Giriş Yap"
+            android:text="@string/action_sign_in"
             android:background="@color/btnColor"/>
 
         <Button
@@ -41,12 +42,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:onClick="RegisterOpen"
-            android:text="KAYIT OL"
+            android:text="@string/action_register"
             android:layout_marginTop="10dp"
             android:background="@color/colorPrimaryDark"/>
 
 
     </LinearLayout>
+
     <LinearLayout
         android:gravity="center"
         android:layout_width="match_parent"
@@ -58,29 +60,28 @@
             android:id="@+id/kayitKulAdi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Kullanıcı adı"/>
+            android:hint="@string/prompt_username"/>
 
         <EditText
             android:id="@+id/kayitSifre"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Şifre"/>
-
-
+            android:hint="@string/prompt_password"/>
 
         <Button
             android:onClick="Register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Kayıt Ol"
+            android:text="@string/action_register"
             android:background="@color/colorPrimaryDark"/>
 
         <Button
             android:onClick="Back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bir hesaba sahibim"
+            android:text="@string/already_registered"
             android:background="@color/btnColor"/>
     </LinearLayout>
+
 </LinearLayout>

@@ -28,8 +28,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginUsername = (EditText) findViewById(R.id.girisKulAdi);
         mLoginPassword = (EditText) findViewById(R.id.girisSifre);
-        mUsername =(EditText) findViewById(R.id.kayitKulAdi);
-        mPassword =(EditText) findViewById(R.id.kayitSifre);
+        mUsername = (EditText) findViewById(R.id.kayitKulAdi);
+        mPassword = (EditText) findViewById(R.id.kayitSifre);
 
         lLogin = (LinearLayout) findViewById(R.id.giris);
         lRegister= (LinearLayout) findViewById(R.id.kayit);
